@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import os
 import pickle
 from generator import Generator
@@ -162,12 +161,3 @@ for epoch in range(num_epochs):
 
 with open(os.path, join(log_dir, 'history.pkl'), 'wb') as f:
   pickle.dump(history,f)
-=======
-from generator import Generator
-from discriminator import Discriminator
-
-g=Generator()
-d=Discriminator()
-print(g)
-print(d)
->>>>>>> abc4f3e1d836349d18f1080e850f716db400c540
