@@ -39,8 +39,8 @@ def train(D, G, criterion, D_optimizer, G_optimizer, data_loader):
   datacounter=1
   for batch_idx, (real_images, _) in enumerate(data_loader):
     if batch_idx>batch_size/1000*datacounter:
-      datacounter+=1
       print(datacounter)
+      datacounter+=1
 
     #データセットの余り，バッチサイズに満たない部分は切り捨て
     if real_images.size()[0] != batch_size:
@@ -156,8 +156,8 @@ for epoch in range(num_epochs):
   if epoch in image_gen_epoch:
     generate(epoch + 1, g, log_dir)
     #モデルも保存
-    torch.save(g.state_dict()),os.path.join(log_dir,'G_%03d.pth'%(epoch+1))
-    torch.save(d.state_dict()),os.path.join(log_dir,'D_%03d.pth'%(epoch+1))
+    torch.save(g.state_dict(),os.path.join(log_dir,'G_%03d.pth'%(epoch+1)))
+    torch.save(d.state_dict(),os.path.join(log_dir,'D_%03d.pth'%(epoch+1)))
 
-with open(os.path, join(log_dir, 'history.pkl'), 'wb') as f:
+with open(os.path.join(log_dir, 'history.pkl'), 'wb') as f:
   pickle.dump(history,f)
