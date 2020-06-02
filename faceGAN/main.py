@@ -141,6 +141,14 @@ def generate(epoch, G, log_dir='logs'):
 
 g=Generator()
 d = Discriminator()
+generator_path="./data/G.pth"
+discriminator_path="./data/D.pth"
+if os.path.exists(generator_path):
+  print("Trained Generator exists.")
+  g.load_state_dict(torch.load(generator_path))
+if os.path.exists(generator_path):
+  print("Trained Discriminator exists.")
+  d.load_state_dict(torch.load(discriminator_path))
 print(g)
 print(d)
 
