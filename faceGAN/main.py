@@ -58,7 +58,7 @@ def train(D, G, criterion, D_optimizer, G_optimizer, data_loader,epoch):
     #print("data_loader_len ,batch_size={},{}", dataloaderlen,batch_size)
     #print("{}/{} trained".format(batch_idx, dataloaderlen))
     if batch_idx*100/dataloaderlen>datacounter:
-      print("epoch {} : {}/{} trained({}%)".format(batch_idx, dataloaderlen,datacounter))
+      print("epoch {} : {}/{} trained({}%)".format(epoch,batch_idx, dataloaderlen,datacounter))
       datacounter+=1
     #データセットの余り，バッチサイズに満たない部分は切り捨て
     if real_images.size()[0] != batch_size:
