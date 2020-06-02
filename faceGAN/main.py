@@ -13,6 +13,8 @@ from torchvision.utils import save_image
 import matplotlib.pyplot as plt
 import numpy as np
 
+import itertools
+
 cuda = torch.cuda.is_available()
 if cuda:
   print('cuda available!')
@@ -23,11 +25,12 @@ else:
 batch_size = 1024
 lr = 0.0002
 z_dim = 62
-num_epochs = 25
+num_epochs = 300
 sample_num = 16
 log_dir = './logs'
 #画像生成するepoch
-image_gen_epoch=[0, 9, 24]
+
+image_gen_epoch=itertools.count(1,step=10)
 
 def train(D, G, criterion, D_optimizer, G_optimizer, data_loader):
   #訓練モードへ
