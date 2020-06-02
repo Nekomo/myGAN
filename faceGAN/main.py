@@ -25,14 +25,14 @@ else:
 batch_size = 1024
 lr = 0.0002
 z_dim = 62
-num_epochs = 300
+num_epochs = 200
 sample_num = 16
 log_dir = './logs'
 #画像生成するepoch
 
-image_gen_epoch=itertools.count(1,step=10)
+image_gen_epoch=[5,25,50,100,150,199,200]
 
-def train(D, G, criterion, D_optimizer, G_optimizer, data_loader):
+def train(D, G, criterion, D_optimizer, G_optimizer, data_loader,epoch):
   #訓練モードへ
   D.train()
   G.train()
@@ -58,7 +58,7 @@ def train(D, G, criterion, D_optimizer, G_optimizer, data_loader):
     #print("data_loader_len ,batch_size={},{}", dataloaderlen,batch_size)
     #print("{}/{} trained".format(batch_idx, dataloaderlen))
     if batch_idx*100/dataloaderlen>datacounter:
-      print("{}/{} trained({}%)".format(batch_idx, dataloaderlen,datacounter))
+      print("epoch {} : {}/{} trained({}%)".format(batch_idx, dataloaderlen,datacounter))
       datacounter+=1
     #データセットの余り，バッチサイズに満たない部分は切り捨て
     if real_images.size()[0] != batch_size:
@@ -185,7 +185,7 @@ history = {}
 history['D_loss']=[]
 history['G_loss']=[]
 for epoch in range(num_epochs):
-  D_loss, G_loss = train(d, g, criterion, d_optimizer, g_optimizer, data_loader)
+  D_loss, G_loss = train(d, g, criterion, d_optimizer, g_optimizer, data_loader,epoch)
   
   print('epoch %d, D_loss:%.4f G_loss: %.4f' % (epoch + 1, D_loss, G_loss))
   history['D_loss'].append(D_loss)
