@@ -20,7 +20,7 @@ else:
   print('cuda is not available!')
 
 # 　ハイパーパラメータ
-batch_size = 128
+batch_size = 1024
 lr = 0.0002
 z_dim = 62
 num_epochs = 25
@@ -52,10 +52,11 @@ def train(D, G, criterion, D_optimizer, G_optimizer, data_loader):
   #データセットをバッチサイズごとに学習
   for batch_idx, (real_images, _) in enumerate(data_loader):
     #ループ数カウンタ
-    if batch_idx>batch_size/1000*datacounter:
-      print(datacounter)
+    #print("data_loader_len ,batch_size={},{}", dataloaderlen,batch_size)
+    #print("{}/{} trained".format(batch_idx, dataloaderlen))
+    if batch_idx*100/dataloaderlen>datacounter:
+      print("{}/{} trained({}%)".format(batch_idx, dataloaderlen,datacounter))
       datacounter+=1
-
     #データセットの余り，バッチサイズに満たない部分は切り捨て
     if real_images.size()[0] != batch_size:
       break
@@ -115,7 +116,6 @@ def train(D, G, criterion, D_optimizer, G_optimizer, data_loader):
   
   D_running_loss /= len(data_loader)
   G_running_loss /= len(data_loader)
-
   return D_running_loss,G_running_loss
 
 #画像生成関数
