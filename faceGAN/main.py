@@ -25,12 +25,12 @@ else:
 batch_size = 1024
 lr = 0.0002
 z_dim = 62
-num_epochs = 200
+num_epochs = 100
 sample_num = 16
 log_dir = './logs'
 #画像生成するepoch
 
-image_gen_epoch=[5,25,50,100,150,199,200]
+image_gen_epoch=[5,10,20,30,40,50,60,70,80,90,99,100]
 
 def train(D, G, criterion, D_optimizer, G_optimizer, data_loader,epoch):
   #訓練モードへ
