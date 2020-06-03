@@ -12,6 +12,7 @@ from torch.utils.data import DataLoader
 from torchvision.utils import save_image
 import matplotlib.pyplot as plt
 import numpy as np
+import shutil
 
 import itertools
 
@@ -136,7 +137,8 @@ def generate(epoch, G, log_dir='logs'):
   #Generatorでサンプル生成
   samples = G(sample_z).data.cpu()
   save_image(samples,os.path.join(log_dir,'epoch_%03d.png' % (epoch)))
-
+  #driveに退避
+  shutil.copy(os.path.join(log_dir, 'epoch_%03d.png' % (epoch + 1)), "../../../drive/\"My Drive\"/gen_results/faceGAN/epoch_%03d.png" % (epoch + 1))
 #main
 
 g=Generator()
@@ -193,10 +195,15 @@ for epoch in range(num_epochs):
 
   #特定のエポックでGeneratorから画像を生成
   if epoch in image_gen_epoch:
+    #画像を生成
     generate(epoch + 1, g, log_dir)
     #モデルを保存
     torch.save(g.state_dict(),os.path.join(log_dir,'G_%03d.pth'%(epoch+1)))
-    torch.save(d.state_dict(),os.path.join(log_dir,'D_%03d.pth'%(epoch+1)))
+    torch.save(d.state_dict(), os.path.join(log_dir, 'D_%03d.pth' % (epoch + 1)))
+    #モデルを退避
+    shutil.copy(os.path.join(log_dir, 'G_%03d.pth' % (epoch + 1)), "../../../drive/\"My Drive\"/gen_results/faceGAN/G_%03d.pth" % (epoch + 1))
+    shutil.copy(os.path.join(log_dir, 'D_%03d.pth' % (epoch + 1)), "../../../drive/\"My Drive\"/gen_results/faceGAN/D_%03d.pth" % (epoch + 1))
+    
 
 
 
