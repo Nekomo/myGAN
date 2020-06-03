@@ -31,7 +31,7 @@ sample_num = 16
 log_dir = './logs'
 #画像生成するepoch
 
-image_gen_epoch=[5,10,20,30,40,50,60,70,80,90,99,100]
+image_gen_epoch=[0,1,5,10,20,30,40,50,60,70,80,90,99,100]
 
 def train(D, G, criterion, D_optimizer, G_optimizer, data_loader,epoch):
   #訓練モードへ
