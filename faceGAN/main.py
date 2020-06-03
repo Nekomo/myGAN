@@ -138,7 +138,7 @@ def generate(epoch, G, log_dir='logs'):
   samples = G(sample_z).data.cpu()
   save_image(samples,os.path.join(log_dir,'epoch_%03d.png' % (epoch)))
   #driveに退避
-  shutil.copy(os.path.join(log_dir, 'epoch_%03d.png' % (epoch + 1)), "../../../drive/\"My Drive\"/gen_results/faceGAN/epoch_%03d.png" % (epoch + 1))
+  shutil.copy(os.path.join(log_dir, 'epoch_%03d.png' % (epoch)), "../../../drive/\"My Drive\"/gen_results/faceGAN/epoch_%03d.png" % (epoch))
 #main
 
 g=Generator()
