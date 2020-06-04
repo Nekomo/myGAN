@@ -1,4 +1,6 @@
 import os
+import re
+import glob
 import pickle
 from generator import Generator
 from discriminator import Discriminator
@@ -139,18 +141,48 @@ def generate(epoch, G, log_dir='logs'):
   save_image(samples,os.path.join(log_dir,'epoch_%03d.png' % (epoch)))
   #driveに退避
   shutil.copy(os.path.join(log_dir, 'epoch_%03d.png' % (epoch)), "../../drive/My Drive/gen_results/faceGAN/epoch_%03d.png" % (epoch))
+def find_best_GandD():
+  lg=glob.glob("./data/G*.pth")
+  ld=glob.glob("./data/D*.pth")
+
+  sorted_g_list= find_all_pth(lg)
+  sorted_d_list= find_all_pth(ld)
+  #GとDが両方保存されたepochを調べる
+  for g_epoch in sorted_g_list:
+    if g_epoch in sorted_d_list:
+      return [
+        g_epoch,
+        "./data/G_%03d.pth"%g_epoch,
+        "./data/D_%03d.pth"%g_epoch,
+      ]
+  return [0,"",""]
+
+def find_all_pth(list):
+  glist=[]
+  for item in list:
+    generator_epoch=re.search(r'\d+', item)
+    #print(generator_epoch)
+    if generator_epoch is not None:
+      glist.append(int(generator_epoch.group()))
+
+  return sorted(glist)[::-1]
+
 #main
 
 g=Generator()
 d = Discriminator()
-generator_path="./data/G.pth"
-discriminator_path="./data/D.pth"
+
+
+
+startepoch,generator_path,discriminator_path=find_best_GandD()
 if os.path.exists(generator_path):
   print("Trained Generator exists.")
   g.load_state_dict(torch.load(generator_path))
-if os.path.exists(generator_path):
+if os.path.exists(discriminator_path):
   print("Trained Discriminator exists.")
   d.load_state_dict(torch.load(discriminator_path))
+  
+
 print(g)
 print(d)
 
@@ -185,8 +217,8 @@ data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 history = {}
 #各epochごとのlossを記録しておく箱
 history['D_loss']=[]
-history['G_loss']=[]
-for epoch in range(num_epochs):
+history['G_loss'] = []
+for epoch in range(startepoch+1,num_epochs):
   D_loss, G_loss = train(d, g, criterion, d_optimizer, g_optimizer, data_loader,epoch)
   
   print('epoch %d, D_loss:%.4f G_loss: %.4f' % (epoch + 1, D_loss, G_loss))
