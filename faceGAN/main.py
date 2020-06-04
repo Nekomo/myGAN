@@ -176,10 +176,10 @@ d = Discriminator()
 
 startepoch,generator_path,discriminator_path=find_best_GandD()
 if os.path.exists(generator_path):
-  print("Trained Generator exists.")
+  print("Trained Generator exists. epoch={}".format(startepoch))
   g.load_state_dict(torch.load(generator_path))
 if os.path.exists(discriminator_path):
-  print("Trained Discriminator exists.")
+  print("Trained Discriminator exists. epoch={}".format(startepoch))
   d.load_state_dict(torch.load(discriminator_path))
   
 
