@@ -203,6 +203,10 @@ for epoch in range(num_epochs):
     #モデルを退避
     shutil.copy(os.path.join(log_dir, 'G_%03d.pth' % (epoch + 1)), "../../drive/My Drive/gen_results/faceGAN/G_%03d.pth" % (epoch + 1))
     shutil.copy(os.path.join(log_dir, 'D_%03d.pth' % (epoch + 1)), "../../drive/My Drive/gen_results/faceGAN/D_%03d.pth" % (epoch + 1))
+    with open(os.path.join(log_dir, 'history.pkl'), 'wb') as f:
+      pickle.dump(history,f)
+    shutil.copy(os.path.join(log_dir, 'history.pkl'), "../../drive/My Drive/gen_results/faceGAN/hisotry_%03d.pth" % (epoch + 1))
+    
     
 
 
